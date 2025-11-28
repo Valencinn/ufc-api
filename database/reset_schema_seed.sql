@@ -1,27 +1,23 @@
+-- use database
+USE ufc;
+
 -- =====================================================
 -- FULL RESET
 -- =====================================================
-
 DROP TABLE IF EXISTS fights;
 DROP TABLE IF EXISTS fighters;
 DROP TABLE IF EXISTS divisions;
 DROP TABLE IF EXISTS events;
 
--- If working inside a specific DB:
--- USE ufc;
-
 -- =====================================================
 -- SCHEMA
 -- =====================================================
-
--- divisiones
 CREATE TABLE divisions (
     weight_class_id INT AUTO_INCREMENT PRIMARY KEY,
     class_name VARCHAR(50),
     gender ENUM('Male', 'Female') NOT NULL
 );
 
--- peleadores
 CREATE TABLE fighters (
     fighter_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50),
@@ -34,7 +30,6 @@ CREATE TABLE fighters (
         FOREIGN KEY (weight_class_id) REFERENCES divisions(weight_class_id)
 );
 
--- eventos
 CREATE TABLE events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     edition_number INT,
@@ -43,7 +38,6 @@ CREATE TABLE events (
     location_name VARCHAR(200)
 );
 
--- peleas
 CREATE TABLE fights (
     fight_id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
@@ -62,8 +56,6 @@ CREATE TABLE fights (
 -- =====================================================
 -- SEED DATA
 -- =====================================================
-
--- divisiones
 INSERT INTO divisions (class_name, gender) VALUES
 ('Flyweight', 'Male'),
 ('Bantamweight', 'Male'),
@@ -78,22 +70,194 @@ INSERT INTO divisions (class_name, gender) VALUES
 ('Bantamweight', 'Female'),
 ('Featherweight', 'Female');
 
--- peleadores
 INSERT INTO fighters (first_name, last_name, nickname, gender, weight_class_id, country) VALUES
 ('Conor', 'McGregor', 'The Notorious', 'Male', 4, 'Ireland'),
 ('Khabib', 'Nurmagomedov', 'The Eagle', 'Male', 4, 'Russia'),
 ('Amanda', 'Nunes', 'The Lioness', 'Female', 11, 'Brazil'),
 ('Jon', 'Jones', 'Bones', 'Male', 7, 'USA'),
-('Valentina', 'Shevchenko', 'Bullet', 'Female', 10, 'Kyrgyzstan');
+('Valentina', 'Shevchenko', 'Bullet', 'Female', 10, 'Kyrgyzstan'),
+('Islam', 'Makhachev', NULL, 'Male', 5, 'Russia'),
+('Ilia', 'Topuria', 'El Matador', 'Male', 4, 'Spain'),
+('Merab', 'Dvalishvili', 'The Machine', 'Male', 2, 'Georgia'),
+('Khamzat', 'Chimaev', 'Borz', 'Male', 6, 'Russia'),
+('Alexandre', 'Pantoja', 'The Cannibal', 'Male', 1, 'Brazil'),
+('Alex', 'Pereira', 'Poatan', 'Male', 7, 'Brazil'),
+('Alexander', 'Volkanovski', 'The Great', 'Male', 3, 'Australia'),
+('Tom', 'Aspinall', NULL, 'Male', 8, 'England'),
+('Dricus', 'Du Plessis', 'Stillknocks', 'Male', 6, 'South Africa'),
+('Max', 'Holloway', 'Blessed', 'Male', 4, 'USA'),
+('Jack', 'Della Maddalena', NULL, 'Male', 5, 'Australia'),
+('Magomed', 'Ankalaev', NULL, 'Male', 7, 'Russia'),
+('Arman', 'Tsarukyan', NULL, 'Male', 4, 'Armenia'),
+('Charles', 'Oliveira', 'Do Bronx', 'Male', 4, 'Brazil'),
+('Belal', 'Muhammad', 'Remember the Name', 'Male', 5, 'USA'),
+('Joshua', 'Van', NULL, 'Male', 1, 'Unknown'),
+('Brandon', 'Moreno', NULL, 'Male', 1, 'Unknown'),
+('Brandon', 'Royval', NULL, 'Male', 1, 'Unknown'),
+('Amir', 'Albazi', NULL, 'Male', 1, 'Unknown'),
+('Tatsuro', 'Taira', NULL, 'Male', 1, 'Unknown'),
+('Manel', 'Kape', NULL, 'Male', 1, 'Unknown'),
+('Asu', 'Almabayev', NULL, 'Male', 1, 'Unknown'),
+('Kyoji', 'Horiguchi', NULL, 'Male', 1, 'Unknown'),
+('Tim', 'Elliott', NULL, 'Male', 1, 'Unknown'),
+('Steve', 'Erceg', NULL, 'Male', 1, 'Unknown'),
+('Alex', 'Perez', NULL, 'Male', 1, 'Unknown'),
+('Tagir', 'Ulanbekov', NULL, 'Male', 1, 'Unknown'),
+('Charles', 'Johnson', NULL, 'Male', 1, 'Unknown'),
+('Bruno', 'Silva', NULL, 'Male', 1, 'Unknown'),
+('Loneer', 'Kavanagh', NULL, 'Male', 1, 'Unknown'),
+('Umar', 'Nurmagomedov', NULL, 'Male', 2, 'Unknown'),
+('Sean', 'O\'Malley', NULL, 'Male', 2, 'Unknown'),
+('Petr', 'Yan', NULL, 'Male', 2, 'Unknown'),
+('Cory', 'Sandhagen', NULL, 'Male', 2, 'Unknown'),
+('Song', 'Yadong', NULL, 'Male', 2, 'Unknown'),
+('Deiveson', 'Figueiredo', NULL, 'Male', 2, 'Unknown'),
+('Aiemann', 'Zahabi', NULL, 'Male', 2, 'Unknown'),
+('Marlon', 'Vera', NULL, 'Male', 2, 'Unknown'),
+('Mario', 'Bautista', NULL, 'Male', 2, 'Unknown'),
+('Henry', 'Cejudo', NULL, 'Male', 2, 'Unknown'),
+('David', 'Martinez', NULL, 'Male', 2, 'Unknown'),
+('Rob', 'Font', NULL, 'Male', 2, 'Unknown'),
+('Vinicius', 'Oliveira', NULL, 'Male', 2, 'Unknown'),
+('Kyler', 'Phillips', NULL, 'Male', 2, 'Unknown'),
+('Marcus', 'McGhee', NULL, 'Male', 2, 'Unknown'),
+('Movsar', 'Evloev', NULL, 'Male', 3, 'Unknown'),
+('Diego', 'Lopes', NULL, 'Male', 3, 'Unknown'),
+('Yair', 'Rodriguez', NULL, 'Male', 3, 'Unknown'),
+('Lerone', 'Murphy', NULL, 'Male', 3, 'Unknown'),
+('Aljamain', 'Sterling', NULL, 'Male', 3, 'Unknown'),
+('Arnold', 'Allen', NULL, 'Male', 3, 'Unknown'),
+('Youssef', 'Zalal', NULL, 'Male', 3, 'Unknown'),
+('Steve', 'Garcia', NULL, 'Male', 3, 'Unknown'),
+('Brian', 'Ortega', NULL, 'Male', 3, 'Unknown'),
+('Josh', 'Emmett', NULL, 'Male', 3, 'Unknown'),
+('Jean', 'Silva', NULL, 'Male', 3, 'Unknown'),
+('Patricio', 'Pitbull', NULL, 'Male', 3, 'Unknown'),
+('Dan', 'Ige', NULL, 'Male', 3, 'Unknown'),
+('David', 'Onama', NULL, 'Male', 3, 'Unknown'),
+('Giga', 'Chikadze', NULL, 'Male', 3, 'Unknown'),
+('Justin', 'Gaethje', NULL, 'Male', 4, 'Unknown'),
+('Paddy', 'Pimblett', NULL, 'Male', 4, 'Unknown'),
+('Dan', 'Hooker', NULL, 'Male', 4, 'Unknown'),
+('Mateusz', 'Gamrot', NULL, 'Male', 4, 'Unknown'),
+('Benoit', 'Saint Denis', NULL, 'Male', 4, 'Unknown'),
+('Rafael', 'Fiziev', NULL, 'Male', 4, 'Unknown'),
+('Renato', 'Moicano', NULL, 'Male', 4, 'Unknown'),
+('Michael', 'Chandler', NULL, 'Male', 4, 'Unknown'),
+('Beneil', 'Dariush', NULL, 'Male', 4, 'Unknown'),
+('Grant', 'Dawson', NULL, 'Male', 4, 'Unknown'),
+('Mauricio', 'Ruffy', NULL, 'Male', 4, 'Unknown'),
+('Ignacio', 'Bahamondes', NULL, 'Male', 4, 'Unknown'),
+('Ian', 'Machado Garry', NULL, 'Male', 5, 'Unknown'),
+('Shavkat', 'Rakhmonov', NULL, 'Male', 5, 'Unknown'),
+('Michael', 'Morales', NULL, 'Male', 5, 'Unknown'),
+('Carlos', 'Prates', NULL, 'Male', 5, 'Unknown'),
+('Sean', 'Brady', NULL, 'Male', 5, 'Unknown'),
+('Kamaru', 'Usman', NULL, 'Male', 5, 'Unknown'),
+('Leon', 'Edwards', NULL, 'Male', 5, 'Unknown'),
+('Joaquin', 'Buckley', NULL, 'Male', 5, 'Unknown'),
+('Gabriel', 'Bonfim', NULL, 'Male', 5, 'Unknown'),
+('Gilbert', 'Burns', NULL, 'Male', 5, 'Unknown'),
+('Colby', 'Covington', NULL, 'Male', 5, 'Unknown'),
+('Geoff', 'Neal', NULL, 'Male', 5, 'Unknown'),
+('Daniel', 'Rodriguez', NULL, 'Male', 5, 'Unknown'),
+('Nassourdine', 'Imavov', NULL, 'Male', 6, 'Unknown'),
+('Sean', 'Strickland', NULL, 'Male', 6, 'Unknown'),
+('Anthony', 'Hernandez', NULL, 'Male', 6, 'Unknown'),
+('Brendan', 'Allen', NULL, 'Male', 6, 'Unknown'),
+('Israel', 'Adesanya', NULL, 'Male', 6, 'Unknown'),
+('Caio', 'Borralho', NULL, 'Male', 6, 'Unknown'),
+('Reinier', 'De Ridder', NULL, 'Male', 6, 'Unknown'),
+('Robert', 'Whittaker', NULL, 'Male', 6, 'Unknown'),
+('Jared', 'Cannonier', NULL, 'Male', 6, 'Unknown'),
+('Michael', 'Page', NULL, 'Male', 6, 'Unknown'),
+('Roman', 'Dolidze', NULL, 'Male', 6, 'Unknown'),
+('Paulo', 'Costa', NULL, 'Male', 6, 'Unknown'),
+('Marvin', 'Vettori', NULL, 'Male', 6, 'Unknown'),
+('Gregory', 'Rodrigues', NULL, 'Male', 6, 'Unknown'),
+('Jiri', 'Prochazka', NULL, 'Male', 7, 'Unknown'),
+('Carlos', 'Ulberg', NULL, 'Male', 7, 'Unknown'),
+('Khalil', 'Rountree Jr', NULL, 'Male', 7, 'Unknown'),
+('Jan', 'Blachowicz', NULL, 'Male', 7, 'Unknown'),
+('Jamahal', 'Hill', NULL, 'Male', 7, 'Unknown'),
+('Azamat', 'Murzakanov', NULL, 'Male', 7, 'Unknown'),
+('Dominick', 'Reyes', NULL, 'Male', 7, 'Unknown'),
+('Volkan', 'Oezdemir', NULL, 'Male', 7, 'Unknown'),
+('Aleksandar', 'Rakic', NULL, 'Male', 7, 'Unknown'),
+('Bogdan', 'Guskov', NULL, 'Male', 7, 'Unknown'),
+('Johnny', 'Walker', NULL, 'Male', 7, 'Unknown'),
+('Nikita', 'Krylov', NULL, 'Male', 7, 'Unknown'),
+('Zhang', 'Mingyang', NULL, 'Male', 7, 'Unknown'),
+('Alonzo', 'Menifield', NULL, 'Male', 7, 'Unknown'),
+('Ciryl', 'Gane', NULL, 'Male', 8, 'Unknown'),
+('Alexander', 'Volkov', NULL, 'Male', 8, 'Unknown'),
+('Sergei', 'Pavlovich', NULL, 'Male', 8, 'Unknown'),
+('Curtis', 'Blaydes', NULL, 'Male', 8, 'Unknown'),
+('Waldo', 'Cortes Acosta', NULL, 'Male', 8, 'Unknown'),
+('Jailton', 'Almeida', NULL, 'Male', 8, 'Unknown'),
+('Serghei', 'Spivac', NULL, 'Male', 8, 'Unknown'),
+('Derrick', 'Lewis', NULL, 'Male', 8, 'Unknown'),
+('Ante', 'Delija', NULL, 'Male', 8, 'Unknown'),
+('Marcin', 'Tybura', NULL, 'Male', 8, 'Unknown'),
+('Shamil', 'Gaziev', NULL, 'Male', 8, 'Unknown'),
+('Tai', 'Tuivasa', NULL, 'Male', 8, 'Unknown'),
+('Mick', 'Parkin', NULL, 'Male', 8, 'Unknown'),
+('Valter', 'Walker', NULL, 'Male', 8, 'Unknown'),
+('Tallison', 'Teixeira', NULL, 'Male', 8, 'Unknown'),
+('Zhang', 'Weili', NULL, 'Female', 9, 'Unknown'),
+('Tatiana', 'Suarez', NULL, 'Female', 9, 'Unknown'),
+('Virna', 'Jandiroba', NULL, 'Female', 9, 'Unknown'),
+('Yan', 'Xiaonan', NULL, 'Female', 9, 'Unknown'),
+('Amanda', 'Lemos', NULL, 'Female', 9, 'Unknown'),
+('Loopy', 'Godinez', NULL, 'Female', 9, 'Unknown'),
+('Iasmin', 'Lucindo', NULL, 'Female', 9, 'Unknown'),
+('Tabatha', 'Ricci', NULL, 'Female', 9, 'Unknown'),
+('Jessica', 'Andrade', NULL, 'Female', 9, 'Unknown'),
+('Gillian', 'Robertson', NULL, 'Female', 9, 'Unknown'),
+('Amanda', 'Ribas', NULL, 'Female', 9, 'Unknown'),
+('Fatima', 'Kline', NULL, 'Female', 9, 'Unknown'),
+('Denise', 'Gomes', NULL, 'Female', 9, 'Unknown'),
+('Angela', 'Hill', NULL, 'Female', 9, 'Unknown'),
+('Alexia', 'Thainara', NULL, 'Female', 9, 'Unknown'),
+('Manon', 'Fiorot', NULL, 'Female', 10, 'Unknown'),
+('Natalia', 'Silva', NULL, 'Female', 10, 'Unknown'),
+('Alexa', 'Grasso', NULL, 'Female', 10, 'Unknown'),
+('Erin', 'Blanchfield', NULL, 'Female', 10, 'Unknown'),
+('Maycee', 'Barber', NULL, 'Female', 10, 'Unknown'),
+('Rose', 'Namajunas', NULL, 'Female', 10, 'Unknown'),
+('Jasmine', 'Jasudavicius', NULL, 'Female', 10, 'Unknown'),
+('Tracy', 'Cortez', NULL, 'Female', 10, 'Unknown'),
+('Karine', 'Silva', NULL, 'Female', 10, 'Unknown'),
+('Miranda', 'Maverick', NULL, 'Female', 10, 'Unknown'),
+('Casey', 'ONeill', NULL, 'Female', 10, 'Unknown'),
+('Wang', 'Cong', NULL, 'Female', 10, 'Unknown'),
+('Eduarda', 'Moura', NULL, 'Female', 10, 'Unknown'),
+('JJ', 'Aldrich', NULL, 'Female', 10, 'Unknown'),
+('Gabriella', 'Fernandes', NULL, 'Female', 10, 'Unknown'),
+('Julianna', 'Pena', NULL, 'Female', 11, 'Unknown'),
+('Raquel', 'Pennington', NULL, 'Female', 11, 'Unknown'),
+('Norma', 'Dumont', NULL, 'Female', 11, 'Unknown'),
+('Ketlen', 'Vieira', NULL, 'Female', 11, 'Unknown'),
+('Yana', 'Santos', NULL, 'Female', 11, 'Unknown'),
+('Irene', 'Aldana', NULL, 'Female', 11, 'Unknown'),
+('Macy', 'Chiasson', NULL, 'Female', 11, 'Unknown'),
+('Ailin', 'Perez', NULL, 'Female', 11, 'Unknown'),
+('Karol', 'Rosa', NULL, 'Female', 11, 'Unknown'),
+('Jacqueline', 'Cavalcanti', NULL, 'Female', 11, 'Unknown'),
+('Mayra', 'Bueno Silva', NULL, 'Female', 11, 'Unknown'),
+('Nora', 'Cornolle', NULL, 'Female', 11, 'Unknown'),
+('Miesha', 'Tate', NULL, 'Female', 11, 'Unknown'),
+('Joselyne', 'Edwards', NULL, 'Female', 11, 'Unknown'),
+('Luana', 'Santos', NULL, 'Female', 11, 'Unknown'),
+('Kayla', 'Harrison', NULL, 'Female', 12, 'Unknown');
 
--- eventos
 INSERT INTO events (edition_number, event_name, event_date, location_name) VALUES
 (295, 'UFC 295: Prochazka vs Pereira', '2023-11-11', 'Madison Square Garden, New York'),
 (296, 'UFC 296: Edwards vs Covington', '2023-12-16', 'Las Vegas, Nevada');
 
--- peleas
 INSERT INTO fights (event_id, fighter_red, fighter_blue, winner, method, round_number, notes) VALUES
 (1, 1, 2, 2, 'Submission', 4, 'Rear-naked choke'),
 (1, 3, 5, 3, 'Decision', 5, 'Split decision'),
 (2, 4, 1, 4, 'KO', 1, 'Head kick'),
 (2, 2, 1, NULL, 'Scheduled', NULL, 'Fight has not occurred yet');
+
