@@ -10,7 +10,7 @@ class Fighter(Base):
     nickname = Column(String, index=True)
     gender = Column(String, index=True)
     weight_class_id = Column(Integer, index=True)
-    country = Column(String, index=True)  # SOLO esta columna extra
+    country = Column(String, index=True)
 
 class Divisions(Base):
     __tablename__ = "divisions"
