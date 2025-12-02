@@ -1,34 +1,53 @@
-from fastapi import FastAPI, HTTPException, Depends, status #de fastapi importas FastAPI, HTTPException, Depends, status
-from sqlalchemy.orm import Session #sqlalchemy importas Session que hace que puedas interactuar con la base de datos
-from typing import Annotated, Optional #typing importas Annotated y Optional que te permiten definir tipos de datos como en typescript
-from pydantic import BaseModel #pydantic importas BaseModel que te permite definir modelos de datos para validacion y serializacion
+from fastapi import FastAPI, HTTPException, Depends, status
+from pydantic import BaseModel
+from typing import Annotated
+from datetime import date
 
-import models #models que contiene las columnas de la base de datos
-from db import SessionLocal, engine #el motor y la sesion de la base de datos
-
-#creas tablas
-models.Base.metadata.create_all(bind=engine)
+import models
+from db import engine, SessionLocal
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
-#validacion de datos con BaseModel de pydantic
-class FighterCreate(BaseModel):
+models.Base.metadata.create_all(bind=engine)
+
+# -----------------------------------------------------------------------------
+# Pydantic Schemas, para crear los schemas tiene que ser igual a los modelos de la base de datos, mismos nombres y tipos de datos
+# -----------------------------------------------------------------------------
+
+class FighterCreate(BaseModel): #esquema para la creación de fighters
     first_name: str
     last_name: str
-    nickname: str
+    nickname: str | None = None
     gender: str
     weight_class_id: int
-    country: Optional[str] = None
 
-class FighterResponse(FighterCreate):
+class FighterResponse(BaseModel): # Esquema para la respuesta de fighters
     fighter_id: int
-    nickname: Optional[str] = None
-    country: Optional[str] = None
+    first_name: str
+    last_name: str
+    nickname: str | None
+    gender: str
+    weight_class_id: int
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
 
-#dependencia para obtener la sesion de la base de datos
+class EventResponse(BaseModel):
+    edition_number: int
+    event_name: str
+    event_date: date | None
+    location_name: str
+
+    model_config = {
+        "from_attributes": True
+    }
+
+# -----------------------------------------------------------------------------
+# conexion a la base de datos
+# -----------------------------------------------------------------------------
+
 def get_db():
     db = SessionLocal()
     try:
@@ -36,23 +55,37 @@ def get_db():
     finally:
         db.close()
 
-db_dep = Annotated[Session, Depends(get_db)] #esto significa que db_dep es una sesion de la base de datos que se obtiene a traves de la dependencia get_db
+db_dep = Annotated[Session, Depends(get_db)]
 
-#para crear rutas en fastapi
-@app.get("/")
-def root():
-    return {"message": "running"}
+# -----------------------------------------------------------------------------
+# ENDPOINTS
+# -----------------------------------------------------------------------------
 
-#endpoint para crear un luchador
-@app.post("/fighters/", response_model=FighterResponse)
-def create_fighter(fighter: FighterCreate, db: db_dep):
-    db_f = models.Fighter(**fighter.dict())
-    db.add(db_f)
+#endpoint de creación de fighters
+@app.post("/fighters/", response_model=FighterResponse, status_code=status.HTTP_201_CREATED)
+async def create_fighter(fighter: FighterCreate, db: db_dep):
+    db_fighter = models.Fighter(
+        first_name=fighter.first_name,
+        last_name=fighter.last_name,
+        nickname=fighter.nickname,
+        gender=fighter.gender,
+        weight_class_id=fighter.weight_class_id,
+    )
+
+    db.add(db_fighter)
     db.commit()
-    db.refresh(db_f)
-    return db_f
+    db.refresh(db_fighter)
+    return db_fighter
 
-#endpoint para obtener todos los luchadores
+#endpoint de fighters
 @app.get("/fighters/", response_model=list[FighterResponse])
-def get_fighters(db: db_dep):
-    return db.query(models.Fighter).all()
+def get_all_fighters(db: db_dep):
+    fighters = db.query(models.Fighter).all()
+    return fighters
+
+
+#endpoint de eventos
+@app.get("/events/", response_model=list[EventResponse])
+def get_events(db: db_dep):
+    events = db.query(models.Events).all()
+    return events

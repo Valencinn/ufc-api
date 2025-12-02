@@ -1,5 +1,7 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date
 from db import Base
+
+#el formato para crear las clases es completar los campos IDENTICAMENTE a como están en la base de datos, mismos nombres y tipos de datos
 
 class Fighter(Base):
     __tablename__ = "fighters"
@@ -22,17 +24,16 @@ class Divisions(Base):
 class Events(Base):
     __tablename__ = "events"
 
-    event_id = Column(Integer, primary_key=True, index=True)
-    edition_number = Column(Integer, index=True)
-    event_name = Column(String, index=True)
-    event_date = Column(String, index=True)
-    location_name = Column(String, index=True)
+    edition_number = Column(Integer, primary_key=True, index=True)
+    event_name = Column(String(255))
+    event_date = Column(Date)
+    location_name = Column(String(255))  # Nota: en el modelo anterior era 'location'
 
 class Fight(Base):
     __tablename__ = "fights"
 
     fight_id = Column(Integer, primary_key=True, autoincrement=True)
-    event_id = Column(Integer, ForeignKey("events.event_id"), nullable=False)
+    event_id = Column(Integer, ForeignKey("events.id"))
     fighter_red = Column(Integer, ForeignKey("fighters.fighter_id"), nullable=False)
     fighter_blue = Column(Integer, ForeignKey("fighters.fighter_id"), nullable=False)
     winner = Column(Integer, ForeignKey("fighters.fighter_id"), nullable=True)
