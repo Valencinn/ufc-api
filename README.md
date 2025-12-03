@@ -16,9 +16,8 @@ The API is built with **FastAPI** for high performance and automatic documentati
 ✔️ **Full CRUD structure planned for fighters, events, and fights**  
 ✔️ **SQLAlchemy ORM models (Fighter, Divisions, Events, Fight)**  
 ✔️ **MySQL backend with environment-variable configuration**  
-✔️ **Clean project structure with routers (scalable design)**  
+✔️ **Clean project structure**  
 ✔️ **Automatic OpenAPI docs**  
-✔️ **Error handling with proper HTTP status codes**  
 
 ## 🛠️ Technologies Used
 
